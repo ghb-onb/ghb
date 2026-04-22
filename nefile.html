@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>董洋洋 · 从丘底村走出的“实心人”</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f6f3ef;
+            font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans', system-ui, -apple-system, sans-serif;
+            color: #2c241a;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(150, 110, 70, 0.04) 1.8%, transparent 2%),
+                              radial-gradient(circle at 80% 70%, rgba(100, 70, 40, 0.05) 2%, transparent 2.5%);
+            background-size: 55px 55px, 70px 70px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 0 1.8rem;
+        }
+
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+            border-bottom: 2px solid #e2cfb0;
+            margin-bottom: 2rem;
+        }
+        .photo-area {
+            flex-shrink: 0;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #e9ddca;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+            border: 4px solid #fff5e8;
+        }
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-tip {
+            font-size: 0.7rem;
+            color: #b4652c;
+            margin-top: 0.4rem;
+            background: #fef0df;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+        .hero-text {
+            flex: 1;
+            min-width: 240px;
+        }
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9b4a2e, #6b2e1a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 0.3rem;
+        }
+        .hero-text .subhead {
+            font-size: 1.2rem;
+            color: #b47c48;
+            font-weight: 500;
+            border-top: 1px solid #ecdbba;
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: #fef7e8;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #eedbba;
+        }
+        .stat-item span {
+            font-weight: 800;
+            color: #b4652c;
+            margin-right: 6px;
+        }
+
+        .quote-block {
+            background: #fef3e2;
+            border-left: 8px solid #b4652c;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 1.5rem;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.03);
+        }
+        .quote-block p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #4f321f;
+        }
+        .quote-author {
+            margin-top: 0.8rem;
+            text-align: right;
+            font-weight: 500;
+            color: #9b6a42;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #e7cfaa;
+            display: inline-block;
+            letter-spacing: -0.3px;
+            color: #5b3622;
+        }
+        .section-title i {
+            font-size: 1.8rem;
+            margin-right: 8px;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 1.8rem 0;
+        }
+        .story-card {
+            background: #fffefa;
+            border-radius: 2rem;
+            padding: 1.6rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s;
+            border: 1px solid #efe2cf;
+        }
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+            border-color: #cfb887;
+        }
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8b442c;
+            margin-bottom: 0.8rem;
+        }
+        .badge {
+            background: #e9ddca;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            color: #6f482e;
+        }
+
+        .timeline {
+            margin: 2rem 0;
+            border-left: 3px solid #dbbc8c;
+            padding-left: 1.8rem;
+        }
+        .timeline-item {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: "●";
+            position: absolute;
+            left: -2.15rem;
+            top: 0;
+            color: #b4652c;
+            font-size: 1.2rem;
+        }
+        .timeline-year {
+            font-weight: 800;
+            color: #b4652c;
+            margin-bottom: 0.3rem;
+        }
+
+        .good-list {
+            background: #fef8ef;
+            border-radius: 1.8rem;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+        }
+        .good-list li {
+            margin-bottom: 1rem;
+            list-style-type: none;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+        .good-list li::before {
+            content: "🌾";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .danmaku-wall {
+            background: #2e241e;
+            background-image: radial-gradient(circle at 10% 20%, rgba(210, 180, 140, 0.12) 1.5%, transparent 2%);
+            border-radius: 2rem;
+            margin: 2.5rem 0;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            border: 1px solid #cbbf9a;
+        }
+        .danmaku-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            color: #faeccb;
+        }
+        .danmaku-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .danmaku-header small {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        .danmaku-container {
+            background: rgba(0,0,0,0.5);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            height: 280px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .danmaku-item {
+            background: rgba(255, 248, 225, 0.95);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            width: fit-content;
+            max-width: 90%;
+            word-break: break-word;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            animation: fadeSlide 0.2s ease;
+            color: #3b2a1c;
+            font-size: 0.9rem;
+        }
+        .danmaku-item span.name {
+            font-weight: 800;
+            color: #b4652c;
+            margin-right: 0.5rem;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(-10px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        .danmaku-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .danmaku-input-area input {
+            flex: 2;
+            min-width: 120px;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 2rem;
+            background: #fffcf0;
+            font-family: inherit;
+            outline: none;
+        }
+        .danmaku-input-area button {
+            background: #b4652c;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .danmaku-input-area button:hover {
+            background: #9c4c1a;
+        }
+
+        .quote-wall {
+            background: #e8ddce;
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .quote-wall p {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #2c241a;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0 2.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid #e2cfb0;
+            font-size: 0.8rem;
+            color: #b48b6a;
+        }
+
+        @media (max-width: 700px) {
+            .wrapper {
+                padding: 0 1.2rem;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!-- 头部：照片区 + 简介，照片引用 董永杨.jpg -->
+    <div class="hero">
+        <div class="photo-area">
+            <!-- 照片文件名为 董永杨.jpg，请将桌面照片重命名为“董永杨.jpg”并放在本网页同目录下 -->
+            <img src="董永杨.jpg" alt="董洋洋照片" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23d9c7ae%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2255%22%20text-anchor%3D%22middle%22%20fill%3D%22%23855e3a%22%20font-size%3D%2212%22%3E%E8%91%A3%E6%B4%8B%E6%B4%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+        </div>
+        <div class="hero-text">
+            <h1>董洋洋</h1>
+            <div class="subhead">170cm · 65kg · 从隆尧丘底村走出来的“实心人”</div>
+            <div class="stats">
+                <div class="stat-item"><span>🏫 校园</span> 300+小时志愿服务</div>
+                <div class="stat-item"><span>❤️ 乡村</span> 连续4年寒暑假义务辅导</div>
+                <div class="stat-item"><span>💪 口碑</span> “凡事肯伸手，遇事敢上前”</div>
+            </div>
+            <div class="photo-tip">📸 照片文件：董永杨.jpg（请将桌面照片重命名后放入同目录）</div>
+        </div>
+    </div>
+
+    <!-- 引言 -->
+    <div class="quote-block">
+        <p>“咱农村出来的孩子，没别的，就是有一把子力气，更有一股子心气儿。个子不高，但步子迈得稳；体重不重，但脊梁站得直。”</p>
+        <div class="quote-author">—— 董洋洋 · 自述</div>
+    </div>
+
+    <!-- ================= 校园经历 ================= -->
+    <div>
+        <div class="section-title"><i>📖</i> 校园 · 静勤帮扛的四年</div>
+        <p style="margin-bottom: 1rem; color: #5b4a38;">在同学和老师眼中，董洋洋不是最耀眼的那一个，却是最让人放心的那一个。他把“底层”活成地基，用每一天的坚持，诠释了当代大学生最朴素也最硬核的品格。</p>
+        
+        <div class="grid-2col">
+            <div class="story-card">
+                <div class="card-icon">📚</div>
+                <div class="badge">“坐得住冷板凳”</div>
+                <div class="card-title">静 · 图书馆的守夜人</div>
+                <div class="card-content">
+                    连续两年，董洋洋都是图书馆闭馆音乐的“忠实听众”。为了精通机械制图，他借遍图书馆相关习题集，手绘图纸超过200张。专业课老师评价：“他是班上笔记最完整、提问最深刻的学生。” 期末复习周，他甚至主动把笔记整理成电子版分享给全班，带动了整层宿舍的学习氛围。
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">🧹</div>
+                <div class="badge">“手比嘴快”</div>
+                <div class="card-title">勤 · 勤工俭学多面手</div>
+                <div class="card-content">
+                    教学楼关灯、实训室打扫、图书馆整架……董洋洋把所有勤工助学岗位都干成了“标杆”。后勤大叔说：“这娃眼里有活，看见水龙头没关拧上，看见垃圾捡起来。” 冬天铲雪，他第一个报名，手上磨出血泡也不吭声。他常说：“力气用了还会再有，多干点不吃亏。”
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">🤝</div>
+                <div class="badge">“隐形帮手”</div>
+                <div class="card-title">帮 · 默默搭把手的热心肠</div>
+                <div class="card-content">
+                    同学生病住院，父母在外地，董洋洋连续一周骑车往返医院与学校，送饭、陪护、取化验单，晚上回来补笔记到凌晨。室友回忆：“洋洋从不说漂亮话，但谁有困难他都会悄悄出现。” 搬宿舍、代取快递、帮学弟补课……他的手机里存着十几个“求助群”，有求必应。
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">⛰️</div>
+                <div class="badge">“关键时刻顶得上”</div>
+                <div class="card-title">扛 · 山区支教的主力</div>
+                <div class="card-content">
+                    大二暑期社会实践，团队赴山区支教，条件艰苦：睡课桌、吃大锅菜、没热水。多名同学中途退出，董洋洋主动留下，不仅承担教学，还负责劈柴、挑水、修桌椅。最后一天，村支书拉着他的手说：“这小伙子，能干、能扛，将来一定有出息。”
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">大一 · 破冰</div>
+                <div>主动竞选生活委员，管班费账目一清二楚，每笔支出都有截图公示。班级获得“优秀班集体”，他被评为“最佳服务班委”。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">大二 · 担当</div>
+                <div>组织“旧衣回收”活动，联系校外慈善机构，三天整理衣物400余件，亲自打包搬运，获校级“优秀志愿者”称号。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">大三 · 淬炼</div>
+                <div>参加省级大学生机械创新大赛，团队遇到技术瓶颈，董洋洋连续一周泡在实训室调试参数，最终获得省级二等奖。指导老师感叹：“他的那股轴劲儿，是成功的关键。”</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">大四 · 传承</div>
+                <div>即将毕业，他主动整理了一本《专业学习手记》留给学弟学妹，内容涵盖课程重点、实习避坑、考研经验。打印店老板被他的诚意打动，免费帮忙装订了30本。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 村里好人好事 ================= -->
+    <div>
+        <div class="section-title"><i>🌾</i> 乡梓 · 丘底村的热心后生</div>
+        <p style="margin-bottom: 1rem;">每次放假回隆尧丘底村，董洋洋从不只是“回家休息”，而是立刻“上岗”。村民们提起他，没有不竖大拇指的——</p>
+
+        <div class="good-list">
+            <ul>
+                <li><strong>“移动的村委会”</strong>：为留守老人跑腿取快递、买药、缴电费已成习惯。村里王大爷的电视机坏了，董洋洋利用电子知识拆机维修，更换电容后画面恢复，王大爷逢人便说：“这娃子比亲孙子还管用。”</li>
+                <li><strong>寒暑假免费补习班</strong>：从大一起，每年假期都在自家院子支起折叠桌，给村里中小学生义务辅导功课。最多时院子里坐了十几个孩子，凳子不够就坐砖头。一个原本成绩垫底的孩子，跟了他两个假期，考进班级前十。家长拎鸡蛋来感谢，他坚决不收：“都是一个村的，不用客气。”</li>
+                <li><strong>暴雨夜疏通排水沟</strong>：去年夏天突降暴雨，村里排水沟被杂物堵塞，积水漫到农户门口。董洋洋看到微信群消息，立刻穿上雨鞋冲出去，蹲在沟边用手一把一把掏出枯枝烂叶，指甲缝全是泥，奋战近一个小时积水退去。在场的大爷感慨：“咱们村出去的大学生不少，可能像洋洋这样一叫就来的，不多。”</li>
+                <li><strong>乡村“数字化小教员”</strong>：手把手教老人用智能手机——医保认证、微信视频、扫码支付。他还利用计算机技能，帮村委会整理村民信息电子台账，把原先手写凌乱的记录全部录入电脑，村支书说：“洋洋不光有文化，关键是心里装着咱们村。”</li>
+                <li><strong>疫情防控期间的值守</strong>：寒假返乡遇到疫情封控，他主动报名卡口志愿者，连续半个月在村口值班，登记、测温、消毒，还把自己的棉大衣借给年纪更大的搭档。乡镇干部巡查时记住了他：“这个小伙子，站得直、守得住。”</li>
+            </ul>
+        </div>
+
+        <div class="grid-2col">
+            <div class="story-card">
+                <div class="card-icon">🏫</div>
+                <div class="card-title">为村小募捐图书</div>
+                <div class="card-content">
+                    董洋洋发现村里小学图书室书籍陈旧，便在学校发起“一本旧书，一份希望”募捐活动，筹集课外读物210册，并自费雇车运回丘底村。他还给每本书盖上“董洋洋捐赠”的印章，孩子们排队借书的场景让他觉得一切值得。
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">🚜</div>
+                <div class="card-title">农忙时的“替补劳动力”</div>
+                <div class="card-content">
+                    秋收时节，村里有些老人无力搬运玉米，董洋洋主动帮忙装车、晾晒、脱粒，一干就是一整天。邻居说：“这后生比一头牛还能吃苦，从没听他喊过累。”
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">📢</div>
+                <div class="card-title">政策宣讲“小喇叭”</div>
+                <div class="card-content">
+                    利用自己在大学所学的法律知识，董洋洋在村口大槐树下给乡亲们讲解防诈骗、医保新政策。他把枯燥的政策编成顺口溜，老人们听得津津有味。去年成功阻止了三位老人向诈骗账户汇款。
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">🏆</div>
+                <div class="card-title">“丘底村荣誉村民”</div>
+                <div class="card-content">
+                    因持续四年的无私付出，村两委特授予董洋洋“优秀青年志愿者”称号，并聘请他担任“乡村治理学生顾问”。他在颁奖时只说了一句：“这里是我的根，为家乡做点事，是本分。”
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个人语录 -->
+    <div class="quote-wall">
+        <p>“身高170，体重130，这些数字不重要。<br>重要的是，遇到事情你愿不愿意弯下腰、伸出手、扛起来。<br>我不求轰轰烈烈，只求认识我的人说一句：<br>‘董洋洋这人，靠得住。’”</p>
+        <div style="margin-top: 1rem;">—— 写在笔记本扉页的一段话</div>
+    </div>
+
+    <!-- 对话 -->
+    <div>
+        <div class="section-title"><i>🎙️</i> 对话 · 董洋洋</div>
+        <div class="grid-2col">
+            <div class="story-card">
+                <div class="card-icon">❓</div>
+                <div class="card-title">为什么坚持做这么多“分外事”？</div>
+                <div class="card-content">
+                    “我从不觉得是分外事。在校园，大家是同学，能帮一把是一把；在村里，都是看着我长大的长辈和弟弟妹妹。咱农村娃，别的不敢说，力气、时间还是有的。做了就做了，心里踏实。”
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">💡</div>
+                <div class="card-title">如何评价“底层”这个标签？</div>
+                <div class="card-content">
+                    “底层不是用来躺平的，是用来起跳的。我不怕起点低，怕的是自己先认输。从丘底村走到大学，我已经跳了很高了，以后还要继续跳。”
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">🏁</div>
+                <div class="card-title">未来的打算？</div>
+                <div class="card-content">
+                    “先把专业学精，想成为一名技术过硬的高级技工。将来如果有机会，我想回隆尧，用自己学到的本事给家乡做点实事。我不求大富大贵，就希望有一天，人家提到丘底村，会说‘那个村出来的董洋洋，干活漂亮，人靠得住’。”
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="card-icon">📸</div>
+                <div class="card-title">同学们眼中的他</div>
+                <div class="card-content">
+                    班长：“班级最默默无闻的顶梁柱。”<br>
+                    室友：“他像一块温热的石头，不烫手，但永远暖着身边的人。”<br>
+                    辅导员：“董洋洋身上有少见的‘死磕’精神——认准了就不松口，而且总是把集体利益放在前面。”
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数字印记 -->
+    <div style="background: #e8ddce; border-radius: 2rem; padding: 1.5rem; margin: 2rem 0; text-align: center;">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;">
+            <div><span style="font-weight:800; font-size:1.8rem;">1200+</span><br>校园志愿服务小时</div>
+            <div><span style="font-weight:800; font-size:1.8rem;">4年</span><br>寒暑假乡村义务辅导</div>
+            <div><span style="font-weight:800; font-size:1.8rem;">50+</span><br>帮助过的留守老人</div>
+            <div><span style="font-weight:800; font-size:1.8rem;">3次</span><br>校级优秀志愿者</div>
+        </div>
+    </div>
+
+    <!-- 弹幕互动区 -->
+    <div class="danmaku-wall">
+        <div class="danmaku-header">
+            <h3>💬 实心人 · 弹幕墙</h3>
+            <small>留下你想对董洋洋说的话</small>
+        </div>
+        <div id="danmakuContainer" class="danmaku-container"></div>
+        <div class="danmaku-input-area">
+            <input type="text" id="danmakuName" placeholder="你的名字" maxlength="20" value="热心网友">
+            <input type="text" id="danmakuMsg" placeholder="写一句鼓励或评价..." maxlength="100">
+            <button id="sendDanmakuBtn">📨 发送弹幕</button>
+        </div>
+    </div>
+
+    <!-- 结尾 -->
+    <div class="quote-block" style="background: #fff5ea; border-left-color: #dbb67b;">
+        <p>“他不是英雄，他只是——凡事肯伸手，遇事敢上前。<br>一个从隆尧丘底村走出来的普通大学生，用170cm的身高、65kg的体重，撑起了一片让身边人感到踏实的天空。”</p>
+        <div class="quote-author">—— 编者按</div>
+    </div>
+
+    <footer>
+        🌟 董洋洋 · 实心人 🌟<br>
+        隆尧县丘底村走出的青年榜样 | 用行动诠释“平凡中的不凡”
+    </footer>
+</div>
+
+<script>
+    let danmakuList = [];
+
+    function loadDanmaku() {
+        const stored = localStorage.getItem('dong_yangyang_danmaku');
+        if (stored) {
+            try {
+                danmakuList = JSON.parse(stored);
+            } catch(e) { danmakuList = []; }
+        }
+        if (danmakuList.length === 0) {
+            danmakuList = [
+                { name: "丘底村乡亲", msg: "洋洋真是咱村的好后生！" },
+                { name: "大学同学", msg: "靠谱的洋洋，永远挺你！" },
+                { name: "学弟", msg: "向学长学习，扎根乡土！" }
+            ];
+            saveDanmaku();
+        }
+        renderDanmaku();
+    }
+
+    function saveDanmaku() {
+        localStorage.setItem('dong_yangyang_danmaku', JSON.stringify(danmakuList));
+    }
+
+    function renderDanmaku() {
+        const container = document.getElementById('danmakuContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        [...danmakuList].reverse().forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'danmaku-item';
+            div.innerHTML = `<span class="name">${escapeHtml(item.name)}：</span>${escapeHtml(item.msg)}`;
+            container.appendChild(div);
+        });
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function addDanmaku(name, msg) {
+        if (!msg.trim()) return;
+        danmakuList.push({ name: name.trim() || "热心网友", msg: msg.trim() });
+        if (danmakuList.length > 100) danmakuList.shift();
+        saveDanmaku();
+        renderDanmaku();
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadDanmaku();
+        const sendBtn = document.getElementById('sendDanmakuBtn');
+        const nameInput = document.getElementById('danmakuName');
+        const msgInput = document.getElementById('danmakuMsg');
+        sendBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            const msg = msgInput.value.trim();
+            if (!msg) {
+                alert('请填写弹幕内容~');
+                return;
+            }
+            addDanmaku(name || "热心网友", msg);
+            msgInput.value = '';
+            msgInput.focus();
+        });
+        msgInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+    });
+</script>
+</body>
+</html>
