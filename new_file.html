@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>明朝大事记 · 全编年史卷轴 | 自动滚动（移动端适配）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #2a241e;
+            background-image: radial-gradient(circle at 15% 30%, rgba(90, 65, 50, 0.5) 2%, transparent 2.5%),
+                              radial-gradient(circle at 85% 70%, rgba(70, 50, 40, 0.4) 1.5%, transparent 2%);
+            background-size: 56px 56px, 40px 40px;
+            font-family: 'Segoe UI', '华文楷书', 'Microsoft YaHei', '宋体', 'STKaiti', 'KaiTi', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        /* 主卡片：古宣纸质感 */
+        .chronicle-card {
+            max-width: 820px;
+            width: 100%;
+            background: #fef7e8;
+            background: linear-gradient(145deg, #fff8ed 0%, #f9efdd 100%);
+            border-radius: 2.5rem 1.2rem 2.5rem 1.2rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 250, 210, 0.9);
+            overflow: hidden;
+            border: 1px solid #e2caa3;
+        }
+
+        .title-section {
+            background: #5c3e2b;
+            background: linear-gradient(135deg, #6b4c34, #4e3322);
+            padding: 1.2rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid #dbb87c;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .title-section h1 {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            color: #ffefc0;
+            text-shadow: 3px 3px 0 #2f1e12;
+            font-weight: 600;
+        }
+        @media (min-width: 600px) {
+            .title-section h1 { font-size: 2.2rem; letter-spacing: 6px; }
+        }
+
+        .title-section p {
+            color: #f3deba;
+            font-size: 0.75rem;
+            margin-top: 6px;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        .title-section::before,
+        .title-section::after {
+            content: "☯";
+            font-size: 1rem;
+            color: #e9c891;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.4;
+        }
+        .title-section::before { left: 15px; }
+        .title-section::after { right: 15px; }
+        @media (min-width: 600px) {
+            .title-section::before { left: 20px; }
+            .title-section::after { right: 20px; }
+        }
+
+        /* 滚动区域 — 移动端优化 */
+        .scroll-container {
+            position: relative;
+            height: 520px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            padding: 0.6rem 1rem 1.2rem 1rem;
+            background: rgba(250, 242, 220, 0.4);
+            scrollbar-width: thin;
+            scrollbar-color: #c7a87b #f1e5cf;
+            -webkit-overflow-scrolling: touch;  /* 移动端平滑滚动 */
+        }
+        @media (max-width: 600px) {
+            .scroll-container {
+                height: 460px;
+                padding: 0.5rem 0.8rem 1rem;
+            }
+        }
+        .scroll-container::-webkit-scrollbar {
+            width: 6px;
+            background: #eedfc5;
+            border-radius: 10px;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #b48b5a;
+            border-radius: 10px;
+        }
+
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .event-item {
+            background: #fffef7;
+            border-left: 8px solid #b4662c;
+            border-radius: 1rem;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+        .event-item:active {
+            transform: scale(0.99);
+        }
+
+        .event-year {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #b45a2b;
+            display: inline-block;
+            border-bottom: 2px dotted #e9c07a;
+            margin-bottom: 0.3rem;
+            font-family: 'Times New Roman', '华文楷书', serif;
+        }
+        @media (min-width: 600px) {
+            .event-year { font-size: 1.35rem; }
+        }
+
+        .event-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #3e2a21;
+            margin: 0.3rem 0 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .event-title:before {
+            content: "◆";
+            font-size: 0.8rem;
+            color: #c1813b;
+        }
+        @media (min-width: 600px) {
+            .event-title { font-size: 1.2rem; }
+        }
+
+        .event-desc {
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: #4f3a2c;
+            text-align: justify;
+        }
+        @media (min-width: 600px) {
+            .event-desc { font-size: 0.9rem; }
+        }
+
+        /* 底部控制栏 */
+        .scroll-footer {
+            background: #ecdbba;
+            padding: 0.7rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid #ddc7a8;
+            font-size: 0.7rem;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff2e2;
+            padding: 3px 10px;
+            border-radius: 48px;
+        }
+        .status-badge {
+            background: #4f2f1c;
+            color: #ffefcf;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+        button {
+            background: #7b563a;
+            border: none;
+            color: #fdf1df;
+            padding: 4px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            transition: 0.2s;
+            touch-action: manipulation;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .speed-slider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff6ea;
+            padding: 0 8px;
+            border-radius: 40px;
+        }
+        .speed-slider label {
+            font-size: 0.65rem;
+            color: #4f311e;
+            font-weight: bold;
+        }
+        input[type="range"] {
+            width: 100px;
+            height: 3px;
+            -webkit-appearance: none;
+            background: #dbb87c;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #8f5e3a;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        .speed-value {
+            font-size: 0.65rem;
+            background: #e9dccd;
+            padding: 2px 5px;
+            border-radius: 20px;
+            min-width: 38px;
+            text-align: center;
+            font-weight: bold;
+            color: #5a3a24;
+        }
+        @media (max-width: 550px) {
+            .scroll-footer { justify-content: center; }
+            .control-group { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chronicle-card">
+    <div class="title-section">
+        <h1>明 · 大事记</h1>
+        <p>洪武开天 永乐扬帆 三百载山河 编年尽览</p>
+    </div>
+
+    <div class="scroll-container" id="scrollContainer">
+        <div class="timeline-list" id="timelineList"></div>
+    </div>
+
+    <div class="scroll-footer">
+        <div class="control-group">
+            <span class="status-badge" id="scrollStatus">📜 滚动中</span>
+            <button id="toggleScrollBtn">⏸️ 暂停</button>
+        </div>
+        <div class="speed-slider">
+            <label>⚡ 速度</label>
+            <input type="range" id="speedSlider" min="0.8" max="3.2" step="0.05" value="1.8">
+            <span id="speedValue" class="speed-value">1.8x</span>
+        </div>
+        <div class="control-group">
+            <span>🖱️ 悬停/触摸即停</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- 完整明朝大事记 (包含开国至南明及文化成就) ----------
+    const eventsData = [
+        { year: "1351年", title: "红巾军起义", desc: "韩山童、刘福通发动红巾军起义，元末农民战争爆发。" },
+        { year: "1352年", title: "朱元璋投军", desc: "朱元璋投奔郭子兴，加入红巾军，逐步崛起。" },
+        { year: "1356年", title: "攻占集庆", desc: "朱元璋攻占集庆（今南京），改名应天府，为根据地。" },
+        { year: "1363年", title: "鄱阳湖之战", desc: "朱元璋大败陈友谅，奠定统一江南基础。" },
+        { year: "1367年", title: "北伐中原", desc: "灭张士诚、方国珍，命徐达、常遇春北伐。" },
+        { year: "1368年", title: "大明开国", desc: "正月初四，朱元璋称帝，国号大明。八月攻克元大都，元亡。" },
+        { year: "1370-1390年", title: "洪武四大案", desc: "胡惟庸案、空印案、郭桓案、蓝玉案，强化皇权。" },
+        { year: "1380年", title: "废除丞相", desc: "废除中书省与丞相制，六部直接对皇帝负责。" },
+        { year: "1381年", title: "里甲黄册", desc: "推行里甲制与黄册；傅友德平定云南。" },
+        { year: "1382年", title: "设立锦衣卫", desc: "设立锦衣卫，为皇帝亲军与特务机构。" },
+        { year: "1398年", title: "洪武驾崩", desc: "朱元璋驾崩，朱允炆即位，年号建文。" },
+        { year: "1402年", title: "靖难之役·永乐即位", desc: "朱棣攻占南京，即位改元永乐，为明成祖。" },
+        { year: "1405-1433年", title: "郑和下西洋", desc: "郑和七下西洋，远达非洲东海岸，扬国威。" },
+        { year: "1406年", title: "营建北京城", desc: "开始大规模营建北京及紫禁城。" },
+        { year: "1407年", title: "永乐大典", desc: "《永乐大典》编纂完成，古代最大类书。" },
+        { year: "1410-1424年", title: "五次亲征漠北", desc: "成祖五次亲征，打击蒙古鞑靼、瓦剌。" },
+        { year: "1420年", title: "设立东厂", desc: "设立东厂，由宦官统领，特务政治强化。" },
+        { year: "1421年", title: "迁都北京", desc: "正式迁都北京，南京为留都，天子守国门。" },
+        { year: "1424年", title: "永乐帝驾崩", desc: "朱高炽即位，年号洪熙，为明仁宗。" },
+        { year: "1425年", title: "仁宗驾崩·宣德即位", desc: "朱瞻基即位，年号宣德，平定汉王叛乱。" },
+        { year: "1425-1435年", title: "仁宣之治", desc: "仁宗、宣宗时期轻徭薄赋，为明朝黄金期。" },
+        { year: "1435年", title: "英宗即位", desc: "9岁朱祁镇即位，年号正统，王振专权。" },
+        { year: "1449年", title: "土木堡之变", desc: "英宗亲征被俘，精锐尽丧，明朝由盛转衰。" },
+        { year: "1449年", title: "北京保卫战", desc: "于谦拥立朱祁钰，击退瓦剌，保住京城。" },
+        { year: "1450年", title: "英宗南归", desc: "瓦剌释放英宗，回京后被软禁南宫。" },
+        { year: "1457年", title: "夺门之变", desc: "英宗复辟，代宗被废，于谦冤死。" },
+        { year: "1464年", title: "成化年间", desc: "朱见深即位，设西厂，汪直专权。" },
+        { year: "1487年", title: "弘治帝即位", desc: "朱祐樘即位，年号弘治，为明孝宗。" },
+        { year: "1487-1505年", title: "弘治中兴", desc: "励精图治，革除弊政，史称弘治中兴。" },
+        { year: "1505年", title: "正德即位", desc: "朱厚照即位，宠信刘瑾，朝政混乱。" },
+        { year: "1510年", title: "刘瑾伏诛", desc: "宦官刘瑾被诛。" },
+        { year: "1517年", title: "应州之战", desc: "武宗亲征，击败蒙古小王子。" },
+        { year: "1521年", title: "嘉靖即位", desc: "朱厚熜即位，年号嘉靖，史称明世宗。" },
+        { year: "1524年", title: "大礼议事件", desc: "世宗与大臣争生父尊号，皇权强化。" },
+        { year: "1542年", title: "壬寅宫变", desc: "宫女试图勒死嘉靖帝，失败。" },
+        { year: "1550年", title: "庚戌之变", desc: "俺答汗兵临北京，被迫开放马市。" },
+        { year: "1553年", title: "葡萄牙据澳门", desc: "葡萄牙人获得澳门居住权。" },
+        { year: "1555-1565年", title: "戚继光抗倭", desc: "戚家军平定东南倭患。" },
+        { year: "1562年", title: "严嵩倒台", desc: "严嵩倒台，徐阶接任首辅。" },
+        { year: "1566年", title: "嘉靖驾崩", desc: "朱载坖即位，年号隆庆。" },
+        { year: "1567年", title: "隆庆开关", desc: "废除海禁，白银大量流入。" },
+        { year: "1571年", title: "隆庆和议", desc: "与蒙古俺答汗和议，北方安定。" },
+        { year: "1572年", title: "万历即位·张居正辅政", desc: "10岁朱翊钧即位，张居正任首辅。" },
+        { year: "1573-1582年", title: "张居正改革", desc: "一条鞭法、考成法，万历中兴。" },
+        { year: "1582年", title: "张居正病逝", desc: "万历帝亲政，逐步怠政。" },
+        { year: "1589年", title: "国本之争", desc: "立太子之争，万历三十年不上朝。" },
+        { year: "1592-1598年", title: "万历三大征", desc: "宁夏、朝鲜、播州三战皆胜，国力大耗。" },
+        { year: "1604年", title: "荷兰侵澎湖", desc: "荷兰侵占澎湖，后被明军击退。" },
+        { year: "1615年", title: "梃击案", desc: "明末三案之首，朝局动荡。" },
+        { year: "1616年", title: "后金建立", desc: "努尔哈赤建后金，反明。" },
+        { year: "1619年", title: "萨尔浒之战", desc: "明军大败，东北转入战略防御。" },
+        { year: "1620年", title: "泰昌帝·红丸案", desc: "万历崩，朱常洛即位一月崩；天启即位。" },
+        { year: "1621年", title: "辽阳沈阳失陷", desc: "后金攻占辽沈，辽东恶化。" },
+        { year: "1624年", title: "魏忠贤专权", desc: "阉党专权，迫害东林党人。" },
+        { year: "1626年", title: "宁远大捷", desc: "袁崇焕击败努尔哈赤。" },
+        { year: "1627年", title: "崇祯即位·诛魏阉", desc: "朱由检即位，铲除魏忠贤；农民战争爆发。" },
+        { year: "1629年", title: "己巳之变", desc: "皇太极兵临北京，袁崇焕被处死。" },
+        { year: "1636年", title: "大清建国", desc: "皇太极称帝，改国号为清。" },
+        { year: "1640-1642年", title: "松锦大战", desc: "明军惨败，洪承畴降清，关外精锐尽失。" },
+        { year: "1644年", title: "甲申之变·明朝灭亡", desc: "李自成破北京，崇祯自缢；吴三桂引清军入关。" },
+        { year: "1644年", title: "弘光政权", desc: "朱由崧在南京即位，弘光政权。" },
+        { year: "1645年", title: "南京沦陷", desc: "清军攻占南京，江阴、嘉定遭屠城。" },
+        { year: "1646年", title: "隆武·永历", desc: "隆武政权亡；朱由榔建永历政权。" },
+        { year: "1662年", title: "南明终结·郑成功收台", desc: "永历帝被杀，南明亡；郑成功收复台湾。" },
+        { year: "制度·文化", title: "明朝政治制度", desc: "废丞相设内阁；厂卫特务；八股取士，皇权巅峰。" },
+        { year: "经济·科技", title: "资本主义萌芽与科技", desc: "白银货币化，引进玉米番薯；《本草》《天工开物》等。" },
+        { year: "文学·艺术", title: "四大名著与戏曲", desc: "《三国》《水浒》《西游》《金瓶梅》；汤显祖《牡丹亭》。" }
+    ];
+
+    // DOM 元素
+    const scrollContainer = document.getElementById('scrollContainer');
+    const timelineList = document.getElementById('timelineList');
+    const scrollStatusSpan = document.getElementById('scrollStatus');
+    const toggleBtn = document.getElementById('toggleScrollBtn');
+    const speedSlider = document.getElementById('speedSlider');
+    const speedValueSpan = document.getElementById('speedValue');
+
+    // 滚动控制变量 (基于 requestAnimationFrame)
+    let animFrameId = null;
+    let isPaused = false;           // 当前是否暂停（由悬停/触摸/手动控制）
+    let isResetting = false;        // 重置回顶标志
+    let resetTimer = null;
+    let currentSpeed = 1.8;         // 滚动速度（像素/帧）
+    let lastTimestamp = 0;
+    let accumulatedScroll = 0;
+    
+    // 手动与触摸/悬停标志
+    let manualPausedByUser = false;
+    let isPointerOver = false;       // 鼠标悬浮或手指触摸
+
+    // 渲染所有大事记
+    function renderTimeline() {
+        timelineList.innerHTML = '';
+        eventsData.forEach(event => {
+            const div = document.createElement('div');
+            div.className = 'event-item';
+            div.innerHTML = `
+                <div class="event-year">📜 ${event.year}</div>
+                <div class="event-title">${event.title}</div>
+                <div class="event-desc">${event.desc}</div>
+            `;
+            timelineList.appendChild(div);
+        });
+    }
+
+    // 滚动执行函数 (基于帧)
+    function stepScroll() {
+        if (isPaused || isResetting) return;
+        if (!scrollContainer) return;
+        
+        const { scrollTop, scrollHeight, clientHeight } = getScrollMetrics();
+        const atBottom = scrollTop + clientHeight + 1 >= scrollHeight;
+        
+        if (atBottom) {
+            // 到达底部，重置回顶部并继续
+            if (!isResetting) {
+                stopAutoScroll();
+                startResetAndRoll();
+            }
+            return;
+        }
+        
+        let newTop = Math.min(scrollTop + currentSpeed, scrollHeight - clientHeight);
+        scrollContainer.scrollTop = newTop;
+    }
+    
+    // 基于 requestAnimationFrame 的循环
+    function startAnimationLoop() {
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        function loop() {
+            stepScroll();
+            animFrameId = requestAnimationFrame(loop);
+        }
+        animFrameId = requestAnimationFrame(loop);
+    }
+    
+    function stopAutoScroll() {
+        if (animFrameId) {
+            cancelAnimationFrame(animFrameId);
+            animFrameId = null;
+        }
+    }
+    
+    function startAutoScroll() {
+        if (animFrameId) stopAutoScroll();
+        if (!isPaused && !isResetting) {
+            startAnimationLoop();
+        }
+        updateStatusText();
+    }
+    
+    function getScrollMetrics() {
+        if (!scrollContainer) return { scrollTop: 0, scrollHeight: 0, clientHeight: 0 };
+        return {
+            scrollTop: scrollContainer.scrollTop,
+            scrollHeight: scrollContainer.scrollHeight,
+            clientHeight: scrollContainer.clientHeight
+        };
+    }
+    
+    function updateStatusText() {
+        if (!scrollStatusSpan) return;
+        if (isResetting) scrollStatusSpan.innerText = '🔄 重置回顶';
+        else if (isPaused) {
+            if (manualPausedByUser) scrollStatusSpan.innerText = '⏸️ 手动暂停';
+            else if (isPointerOver) scrollStatusSpan.innerText = '⏸️ 触摸/悬停暂停';
+            else scrollStatusSpan.innerText = '⏸️ 已暂停';
+        } else {
+            scrollStatusSpan.innerText = '📜 滚动中';
+        }
+    }
+    
+    // 重置到顶部并重新滚动
+    function startResetAndRoll() {
+        if (isResetting) return;
+        isResetting = true;
+        stopAutoScroll();
+        updateStatusText();
+        if (resetTimer) clearTimeout(resetTimer);
+        if (scrollContainer) scrollContainer.scrollTop = 0;
+        resetTimer = setTimeout(() => {
+            isResetting = false;
+            if (!isPaused) {
+                startAutoScroll();
+            } else {
+                updateStatusText();
+            }
+            resetTimer = null;
+        }, 260);
+    }
+    
+    function pauseAutoScroll() {
+        if (isPaused) return;
+        isPaused = true;
+        stopAutoScroll();
+        updateStatusText();
+    }
+    
+    function resumeAutoScroll() {
+        if (!isPaused) return;
+        isPaused = false;
+        if (isResetting) {
+            updateStatusText();
+            return;
+        }
+        startAutoScroll();
+    }
+    
+    // 手动切换 (按钮)
+    function toggleManualScroll() {
+        if (manualPausedByUser) {
+            // 当前手动暂停 -> 恢复自动
+            manualPausedByUser = false;
+            if (isPointerOver) {
+                // 如果鼠标/手指仍在容器内，则由于悬停依然暂停
+                if (!isPaused) pauseAutoScroll();
+                toggleBtn.innerHTML = '⏸️ 暂停';
+                updateStatusText();
+            } else {
+                resumeAutoScroll();
+                toggleBtn.innerHTML = '⏸️ 暂停';
+            }
+        } else {
+            manualPausedByUser = true;
+            pauseAutoScroll();
+            toggleBtn.innerHTML = '▶️ 启动';
+            updateStatusText();
+        }
+    }
+    
+    // 指针进入 (鼠标或触摸)
+    function handlePointerEnter() {
+        isPointerOver = true;
+        if (!manualPausedByUser) {
+            pauseAutoScroll();
+        } else {
+            updateStatusText();
+        }
+    }
+    
+    function handlePointerLeave() {
+        isPointerOver = false;
+        if (!manualPausedByUser) {
+            resumeAutoScroll();
+        } else {
+            updateStatusText();
+        }
+    }
+    
+    // 速度调节
+    function updateSpeed() {
+        let newSpeed = parseFloat(speedSlider.value);
+        currentSpeed = newSpeed;
+        speedValueSpan.innerText = currentSpeed.toFixed(2) + 'x';
+    }
+    
+    // 初始化所有事件与渲染
+    function init() {
+        renderTimeline();
+        scrollContainer.scrollTop = 0;
+        isPaused = false;
+        isResetting = false;
+        manualPausedByUser = false;
+        isPointerOver = false;
+        stopAutoScroll();
+        startAutoScroll();
+        
+        toggleBtn.innerHTML = '⏸️ 暂停';
+        toggleBtn.onclick = toggleManualScroll;
+        
+        // 同时支持鼠标和触摸事件 (移动端)
+        scrollContainer.addEventListener('mouseenter', handlePointerEnter);
+        scrollContainer.addEventListener('mouseleave', handlePointerLeave);
+        scrollContainer.addEventListener('touchstart', handlePointerEnter, { passive: true });
+        scrollContainer.addEventListener('touchend', handlePointerLeave);
+        scrollContainer.addEventListener('touchcancel', handlePointerLeave);
+        
+        speedSlider.addEventListener('input', updateSpeed);
+        updateSpeed();
+        
+        // 页面可见性变化
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (animFrameId) stopAutoScroll();
+            } else {
+                if (!manualPausedByUser && !isPointerOver && !isResetting && !animFrameId) {
+                    startAutoScroll();
+                }
+            }
+        });
+        
+        // 清理定时器
+        window.addEventListener('beforeunload', () => {
+            if (animFrameId) cancelAnimationFrame(animFrameId);
+            if (resetTimer) clearTimeout(resetTimer);
+        });
+    }
+    
+    init();
+</script>
+</body>
+</html>
